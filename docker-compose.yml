@@ -1,0 +1,11 @@
+# describes which services docker should run
+# services contails all of the containers that needs orchestrating
+services:
+  postgres:
+    image: postgres
+    # contains ports that will be mapped from the container to your local machine, so that we'll be able to send and receive traffic
+    ports:
+     - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: drizzle-orm-postgres # database that is created by default
