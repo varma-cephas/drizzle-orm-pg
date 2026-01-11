@@ -34,7 +34,18 @@ export class UsersService {
     await this.database
       .update(schema.users)
       .set({ ...body })
-      .where(eq(schema.users.id, id));
-    return this.getUser(id);
+      .where(eq(schema.users.id, id))
+      .returning();
+  }
+
+  async deleteUser(id: number) {
+    const deletedUsr = await this.database
+      .delete(schema.users)
+      .where(eq(schema.users.id, id))
+      .returning();
+    if (!deletedUsr.length) {
+      throw new NotFoundException(`User with ${id} not found to be deleted`);
+    }
+    return deletedUsr;
   }
 }
